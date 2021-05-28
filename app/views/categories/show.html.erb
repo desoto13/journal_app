@@ -1,4 +1,7 @@
-<%= @category.name %>
-<%= @category.description %>
+<h1 class="text-center"><%= @category.name %></h1>
+<h2 class="text-center"><%= @category.description %></h2>
 
-<button type="button"><%= link_to "Edit", edit_category_path(@category) %></button>
+<%= link_to "Back", :back %>
+<%= link_to "Edit", edit_category_path(@category) %>
+
+<%= render 'tasks/index' %>

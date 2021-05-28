@@ -1,7 +1,9 @@
 class TasksController < ApplicationController
     before_action :get_category
+
     def index
         @tasks = @category.tasks.all
+        redirect_to category_path(@category)
     end
     
     def show
@@ -17,7 +19,7 @@ class TasksController < ApplicationController
         
         if @task.valid?
             @task.save
-            redirect_to category_path(@category)
+            redirect_to (params[:previous_request] || category_path(@category))
         else
           render :new
         end
@@ -31,7 +33,7 @@ class TasksController < ApplicationController
         @task = @category.tasks.find(params[:id])
     
         if @task.update(task_params)
-            redirect_to category_path(@category)
+            redirect_to (params[:previous_request] || category_path(@category))
         else
           render :edit
         end
@@ -41,7 +43,7 @@ class TasksController < ApplicationController
         @task = @category.tasks.find(params[:id])
         @task.destroy
 
-        redirect_to category_path(@category)
+        redirect_to (params[:previous_request] || category_path(@category))
     end
     
     private

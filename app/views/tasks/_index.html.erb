@@ -1,0 +1,6 @@
+<h1 class="text-center">TASKS</h1>
+
+<% @tasks.sort_by { |c| c["updated_at"] }.reverse.each do |task| %>
+    <h2 class="text-center"><%= link_to task.name, category_task_path(@category, task) %></h2>
+<% end %>
+<%= link_to "CREATE", new_category_task_path(@category) %>

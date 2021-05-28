@@ -1,0 +1,32 @@
+<%= form_with model: [category, task] do |f| %>
+    <div>
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <% task.errors.full_messages_for(:name).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+    </div>
+
+    <div>
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+        <% task.errors.full_messages_for(:description).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+    </div>
+
+    <div>
+        <%= f.label :deadline %>
+        <%= f.date_field :deadline %>
+        <% task.errors.full_messages_for(:deadline).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+    </div>
+
+    <%= link_to "Back", :back || category_path(category) %>
+
+    <div>
+        <%= f.submit %>
+    </div>
+
+<% end %>

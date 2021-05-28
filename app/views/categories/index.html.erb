@@ -3,4 +3,5 @@
 <% @categories.sort_by { |c| c["updated_at"] }.reverse.each do |category| %>
     <h2 class="text-center"><%= link_to category.name, category %></h2>
 <% end %>
-<button type="button"><%= link_to "CREATE", new_category_path %></button>
+<%= link_to "Back", :back %>
+<%= link_to "CREATE", new_category_path %>

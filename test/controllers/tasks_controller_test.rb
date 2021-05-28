@@ -8,7 +8,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show the selected category and create a new task" do
-    get category_path(@category)
+    get new_category_task_path(@category)
     assert_response :success
 
     assert_difference("Task.count") do
@@ -20,8 +20,8 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should show the selected category and edit one task" do
-    get category_path(@category)
+  test "should show the selected task and edit it" do
+    get edit_category_task_path(@category, @task)
     assert_response :success
 
     put category_task_path(@category, @task), params: { task: { name: "Household Chores", description: "Doing Laundry", deadline: Date.today } }
@@ -31,8 +31,8 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should show the selected category delete one task" do
-    get category_path(@category)
+  test "should show the task and delete it" do
+    get category_task_path(@category, @task)
     assert_response :success
 
     assert_difference "Task.count", -1 do
