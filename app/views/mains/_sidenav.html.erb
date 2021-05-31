@@ -1,0 +1,16 @@
+<div class="bg-blue-800 text-blue-100 w-72 space-y-7 px-2.5 py-8">
+    <a class="text-white flex items-center space-x-2 px-5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-3xl font-extrabold">TaskMaster</span>
+    </a>
+    <nav>
+        <%= link_to "Home", root_path, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
+        <div class="block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white">
+        Profile
+        </div>
+        <%= link_to "Categories", categories_path, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
+    </nav>
+</div>

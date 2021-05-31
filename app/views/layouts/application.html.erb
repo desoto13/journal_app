@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="icon" href="https://i1.wp.com/www.pamelaweaver.com/wp-content/uploads/2015/04/tasks.png?ssl=1">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="relative min-h-screen flex">
+      <%= render 'mains/sidenav' %>
+
+      <div class="flex-1">
+        <%= yield %>
+      </div>
+
   </body>
 </html>

@@ -1,4 +1,5 @@
 <%= form_with model: [category, task] do |f| %>
+    <%= hidden_field_tag :previous_request, request.referer %>
     <div>
         <%= f.label :name %>
         <%= f.text_field :name %>
@@ -22,6 +23,13 @@
             <div><%= message %></div>
         <% end %>
     </div>
+
+    <div>
+        <%= f.label :finish, "finish" %>
+        <%= f.check_box :finish %>
+    </div>
+
+
 
     <%= link_to "Back", :back || category_path(category) %>
 

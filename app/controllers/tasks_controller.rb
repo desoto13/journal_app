@@ -19,7 +19,11 @@ class TasksController < ApplicationController
         
         if @task.valid?
             @task.save
-            redirect_to (params[:previous_request] || category_path(@category))
+            if @task.deadline == Date.today
+                redirect_to root_path
+            else
+                redirect_to category_path(@category)
+            end
         else
           render :new
         end
@@ -43,7 +47,7 @@ class TasksController < ApplicationController
         @task = @category.tasks.find(params[:id])
         @task.destroy
 
-        redirect_to (params[:previous_request] || category_path(@category))
+        redirect_to category_path(@category)
     end
     
     private
@@ -53,6 +57,6 @@ class TasksController < ApplicationController
     end
 
     def task_params
-        params.require(:task).permit(:name, :description, :deadline)
+        params.require(:task).permit(:name, :description, :deadline, :finish)
     end
 end

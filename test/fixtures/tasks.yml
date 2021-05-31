@@ -7,13 +7,13 @@
 one:
   name: Task1
   description: This is Task1
-  deadline: Date.today
+  deadline: <%= Date.today.strftime("%Y-%m-%d") %>
   category_id: 1ce72baa-2683-4549-a1a8-3eb13bd1b95c
 # column: value
 #
 two:
   name: Task2
   description: This is Task2
-  deadline: Date.today
+  deadline: <%= Date.today.strftime("%Y-%m-%d") %>
   category_id: 1ce72baa-2683-4549-a1a8-3eb13bd1b95c
 # column: value

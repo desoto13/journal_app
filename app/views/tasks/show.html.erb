@@ -1,6 +1,8 @@
 <h1 class="text-center"><%= @task.name %></h1>
 <h2 class="text-center"><%= @task.description %></h2>
 <h2 class="text-center"><%= @task.deadline %></h2>
+<h2 class="text-center"><%= @task.finish %></h2>
+
 
 <%= link_to "Back", :back %>
 <%= link_to "Edit", edit_category_task_path(@category, @task) %>
