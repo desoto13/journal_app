@@ -1,19 +1,20 @@
 class CategoriesController < ApplicationController
+    before_action :authenticate_user!
     def index
-        @categories = Category.all
+        @categories = current_user.categories.all
     end
     
     def show
-        @category = Category.find(params[:id])
+        @category = current_user.categories.find(params[:id])
         @tasks = @category.tasks.all
     end
     
     def new
-        @category = Category.new
+        @category = current_user.categories.build
     end
     
     def create
-        @category = Category.new(category_params)
+        @category = current_user.categories.build(category_params)
     
         if @category.valid?
             @category.save
@@ -24,11 +25,11 @@ class CategoriesController < ApplicationController
     end
     
     def edit
-        @category = Category.find(params[:id])
+        @category = current_user.categories.find(params[:id])
     end
     
     def update
-        @category = Category.find(params[:id])
+        @category = current_user.categories.find(params[:id])
     
         if @category.update(category_params)
           redirect_to @category
@@ -38,7 +39,7 @@ class CategoriesController < ApplicationController
     end
     
     def destroy
-        @category = Category.find(params[:id])
+        @category = current_user.categories.find(params[:id])
         @category.destroy
 
         redirect_to categories_path

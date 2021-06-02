@@ -10,6 +10,12 @@ class CategoryTest < ActiveSupport::TestCase
     assert @category.valid?
   end
 
+  test "invalid without user" do
+    @category.user_id = nil
+    refute @category.valid?, 'category is valid without a user'
+    assert_not_nil @category.errors[:user_id], 'no validation error for name present'
+  end
+
   test "invalid without name" do
     @category.name = nil
     refute @category.valid?, 'category is valid without a name'

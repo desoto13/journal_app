@@ -25,6 +25,9 @@ gem 'jbuilder', '~> 2.7'
 #Gem for TDD
 gem 'rexml', '~> 3.2', '>= 3.2.4'
 
+#Gem for devise
+gem 'devise', '~> 4.8'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JournalApp</title>
+    <title>TaskMaster</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,9 +13,15 @@
   </head>
 
   <body class="relative min-h-screen flex">
-      <%= render 'mains/sidenav' %>
+      <% if user_signed_in? %>
+        <%= render 'mains/sidenav' %>
+      <% end %>
 
       <div class="flex-1">
+        <% if notice %>
+          <%= render 'mains/notice' %>
+        <% end %>
+      
         <%= yield %>
       </div>
 
