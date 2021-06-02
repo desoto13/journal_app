@@ -1,5 +1,5 @@
 class MainsController < ApplicationController
   def home
-    @categories = Category.all
+    @categories = current_user.categories.all if current_user != nil
   end
 end

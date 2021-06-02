@@ -8,9 +8,8 @@
     </a>
     <nav>
         <%= link_to "Home", root_path, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
-        <div class="block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white">
-        Profile
-        </div>
+        <%= link_to "Profile", edit_user_registration_path, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
         <%= link_to "Categories", categories_path, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
+        <%= link_to "Log Out",  destroy_user_session_path, method: :delete, class:"block py-3 px-5 rounded transition duration-200 hover:bg-blue-700 cursor-pointer hover:text-white" %>
     </nav>
 </div>

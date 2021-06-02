@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+    include Devise::Controllers::Helpers 
     before_action :authenticate_user!
     before_action :get_category
 
