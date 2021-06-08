@@ -1,40 +1,53 @@
 <%= form_with model: [category, task] do |f| %>
-    <%= hidden_field_tag :previous_request, request.referer %>
-    <div>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-        <% task.errors.full_messages_for(:name).each do |message| %>
-            <div><%= message %></div>
+  <%= hidden_field_tag :previous_request, request.referer %>
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <section class="w-full px-8 py-16 pb-8 bg-blue-100 xl:px-8">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col items-center md:flex-row">
+
+                <div class="w-full space-y-5 md:w-3/5 md:pr-16">
+                    <div class="w-3/4 h-3/4 bg-white">
+                      <%= image_tag("Task.png", class:"w-full") %>
+                    </div>
+                </div>
+
+                <div class="w-full mt-16 md:mt-0 md:w-2/5">
+                    <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
+                        <h3 class="mb-6 text-2xl font-medium text-center">TASK Details</h3>
+                        <% task.errors.full_messages_for(:name).each do |message| %>
+                          <div class="text-red-500"><%= message %></div>
+                        <% end %>
+                        <% task.errors.full_messages_for(:description).each do |message| %>
+                          <div class="text-red-500"><%= message %></div>
+                        <% end %>
+                        <% task.errors.full_messages_for(:deadline).each do |message| %>
+                          <div class="text-red-500"><%= message %></div>
+                        <% end %>
+                        <%= f.text_field :name, class:"block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none", placeholder:"Task Name" %>
+                        <%= f.text_area :description, class:"block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg resize-none focus:ring focus:ring-blue-500 focus:outline-none", placeholder:"Description" %>
+                        <div class="flex items-center mb-4">
+                          <%= f.check_box :finish %>
+                          <%= f.label :finish, "Finished", class:"ml-1" %>
+                        </div>
+                        <div class="mb-4">
+                          <%= f.label :deadline, "Deadline" %>
+                          <%= f.date_field :deadline, class:"border border-2 border-transparent border-gray-200 rounded-lg w-5/12" %>
+                        </div>  
+                        <div class="block">
+                          <%= f.submit class:"w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg cursor-pointer hover:bg-blue-500" %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%= link_to :back do %>
+          <div class="h-10 w-10 flex items-center rounded justify-center hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </div>
         <% end %>
-    </div>
-
-    <div>
-        <%= f.label :description %>
-        <%= f.text_area :description %>
-        <% task.errors.full_messages_for(:description).each do |message| %>
-            <div><%= message %></div>
-        <% end %>
-    </div>
-
-    <div>
-        <%= f.label :deadline %>
-        <%= f.date_field :deadline %>
-        <% task.errors.full_messages_for(:deadline).each do |message| %>
-            <div><%= message %></div>
-        <% end %>
-    </div>
-
-    <div>
-        <%= f.label :finish, "finish" %>
-        <%= f.check_box :finish %>
-    </div>
-
-
-
-    <%= link_to "Back", :back || category_path(category) %>
-
-    <div>
-        <%= f.submit %>
-    </div>
-
+    </section>
+  </div>
 <% end %>
+

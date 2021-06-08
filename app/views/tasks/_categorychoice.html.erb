@@ -1,5 +1,5 @@
-
-  <header class="bg-white shadow">
+<div class="h-4/5 w-4/5 bg-gray-100 rounded">
+  <header class="bg-white shadow rounded">
     <div class="w-1/2 mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
     <h1 class="text-3xl font-bold text-gray-900">
       Choose or <%= link_to "CREATE", new_category_path, class:"text-blue-800 hover:text-green-800" %> a Category
@@ -8,9 +8,9 @@
   </header>
 
   <div class="max-w-7xl mx-auto h-screen py-6 sm:px-6 lg:px-8">  
-      <div class="flex flex-wrap justify-around border-4 border-dashed border-gray-200 rounded-lg h-5/6 overflow-y-auto">
+      <div class="flex flex-wrap justify-around border-4 border-dashed border-gray-200 rounded-lg h-2/3 overflow-y-auto">
         <% @categories.sort_by { |c| c["updated_at"] }.reverse.each do |category| %>
-          <%= link_to category_path(category) do %>
+          <%= link_to new_category_task_path(category) do %>
             <div class="h-40 w-40 m-4 text-center text-2xl font-bold text-white flex items-center justify-center border-2 border-blue-800 bg-blue-800 rounded-full hover:bg-white hover:text-blue-800">
               <%= category.name %>
             </div>
@@ -18,6 +18,4 @@
         <% end %>
       </div>
   </div>
-
-
-
+</div>

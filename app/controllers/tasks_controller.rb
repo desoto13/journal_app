@@ -21,11 +21,7 @@ class TasksController < ApplicationController
         
         if @task.valid?
             @task.save
-            if @task.deadline == Date.today
-                redirect_to root_path
-            else
-                redirect_to category_path(@category)
-            end
+            redirect_to (params[:previous_request] || category_path(@category))
         else
           render :new
         end

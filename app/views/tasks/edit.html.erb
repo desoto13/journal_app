@@ -1,5 +1,9 @@
-<h2 class="text-center"><%= @category.name %></h2>
-
-<h1 class="text-center">Modify the TASK</h1>
+<header class="bg-white shadow">
+  <div class="w-3/5 mx-auto text-center py-6 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900">
+       Modify TASK from <%= link_to @category.name, category_path(@category), class:"hover:text-blue-800 cursor-pointer" %>
+    </h1>
+  </div>
+</header>
 
 <%= render "form", task: @task, category: @category %>

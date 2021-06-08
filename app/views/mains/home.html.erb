@@ -1,30 +1,244 @@
 <% if user_signed_in? %>
   <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-gray-900">
-          Today
+      <div class="w-2/3 mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl text-center font-bold text-gray-900">
+          <%= "TASK DASHBOARD for Today: #{Date.today.to_s(:long)}" %>
       </h1>
       </div>
   </header>
 
-  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">  
-    <div class="px-4 py-6 sm:px-0">
-      <div class="border-4 border-dashed border-gray-200 rounded-lg h-96">
-        <% @categories.each do |category| %>
-          <% category.tasks.all.select do |task| %>
-            <% if task.deadline == Date.today %>
-              <p class="text-center"><%= category.name %></p>
-              <p class="text-center"><%= link_to task.name, edit_category_task_path(category,task) %></p>
-              <p class="text-center"><%= task.description %></p>
-            <% end %>
+  <div data-controller="hometabs" class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <button data-action="click->hometabs#all" data-hometabs-target="allTab" class="bg-gray-200 w-1/6 px-2.5 py-3.5 text-xl font-bold hover:bg-gray-300">Overall</button>
+    <button data-action="click->hometabs#today" data-hometabs-target="todayTab" class="bg-gray-300 w-1/6 px-2.5 py-3.5 text-xl font-bold hover:bg-gray-300">Due Today</button>
+    <button data-action="click->hometabs#finish" data-hometabs-target="finishTab" class="bg-gray-200 w-1/6 px-2.5 py-3.5 text-xl font-bold hover:bg-gray-300">Finished</button>
+    <div data-hometabs-target="allContent" class="bg-gray-300 w-full h-96 p-5 overflow-y-auto flex flex-wrap justify-around hidden">
+      <% @categories.sort.each do |category| %>
+        <% category.tasks.all.sort_by { |c| c["updated_at"] }.each do |task| %>
+          <% if task.deadline < Date.today && task.finish == false %>
+            <div class="bg-red-400 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+              <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+              <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+              <p class="text-center text-sm truncate"><%= task.description %></p>
+              <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+                <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+                <div class="flex">
+                  <%= link_to category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to edit_category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
           <% end %>
         <% end %>
+      <% end %>
+
+      <% @categories.sort.each do |category| %>
+        <% category.tasks.all.sort_by { |c| c["updated_at"] }.each do |task| %>
+          <% if task.deadline == Date.today && task.finish == false %>
+            <div class="bg-yellow-100 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+              <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+              <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+              <p class="text-center text-sm truncate"><%= task.description %></p>
+              <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+                <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+                <div class="flex">
+                  <%= link_to category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to edit_category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% @categories.sort.each do |category| %>
+        <% category.tasks.all.sort_by { |c| c["updated_at"] }.each do |task| %>
+          <% if task.deadline > Date.today && task.finish == false %>
+            <div class="bg-blue-400 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+              <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+              <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+              <p class="text-center text-sm truncate"><%= task.description %></p>
+              <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+                <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+                <div class="flex">
+                  <%= link_to category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to edit_category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% @categories.sort.each do |category| %>
+        <% category.tasks.all.sort_by { |c| c["updated_at"] }.reverse.each do |task| %>
+          <% if task.finish == true %>
+            <div class="bg-green-300 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+              <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+              <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+              <p class="text-center text-sm truncate"><%= task.description %></p>
+              <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+                <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+                <div class="flex">
+                  <%= link_to category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to edit_category_task_path(category,task) do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  <% end %>
+                  <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div data-hometabs-target="todayContent" class="bg-gray-300 w-full h-96 p-5 overflow-y-auto flex flex-wrap justify-around">
+    <% @categories.sort.each do |category| %>
+      <% category.tasks.all.sort_by { |c| c["updated_at"] }.each do |task| %>
+        <% if task.deadline == Date.today && task.finish == false %>
+          <div class="bg-yellow-100 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+            <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+            <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+            <p class="text-center text-sm truncate"><%= task.description %></p>
+            <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+              <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+              <div class="flex">
+                <%= link_to category_task_path(category,task) do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                <% end %>
+                <%= link_to edit_category_task_path(category,task) do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                <% end %>
+                <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+    </div>
+
+    <div data-hometabs-target="finishContent" class="bg-gray-300 w-full h-96 p-5 overflow-y-auto flex flex-wrap justify-around hidden">
+    <% @categories.sort.each do |category| %>
+      <% category.tasks.all.sort_by { |c| c["updated_at"] }.reverse.each do |task| %>
+        <% if task.finish == true %>
+          <div class="bg-green-300 w-1/5 h-3/5 m-2 p-2 flex flex-col justify-evenly">
+            <h3 class="text-center text-2xl font-bold my-2"><%= task.name %></h3>
+            <p class="text-center text-sm text-indigo-900 font-bold"><%= "DEADLINE: #{task.deadline.to_s(:long)}" %></p>
+            <p class="text-center text-sm truncate"><%= task.description %></p>
+            <div class="flex w-full justify-around text-gray-500 text-xs items-center">
+              <span class="hover:text-gray-900 hover:underline"><%= link_to "Category: #{category.name}", category_path(category) %></span>
+              <div class="flex">
+                <%= link_to category_task_path(category,task) do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                <% end %>
+                <%= link_to edit_category_task_path(category,task) do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                <% end %>
+                <%= link_to category_task_path(category,task), method: :delete, data: { confirm: "Are you sure?" } do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+    </div> 
+    
+    <div data-controller="choice">
+      <div class="flex flex-start mt-6">
+        <div data-action="click->choice#show" class="flex bg-green-500 rounded justify-between py-2 px-3 text-white cursor-pointer hover:bg-green-600">
+          <h2 class="text-3xl font-bold">ADD NEW TASK</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+      </div> 
+      <div data-choice-target="modal" class="absolute top-0 left-0 bg-blue-800 bg-opacity-50 m-0 h-screen w-screen flex justify-center items-center hidden">
+        <div data-action="click->choice#close" class="absolute top-1 right-1 cursor-pointer hover:text-red-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <%= render 'tasks/categorychoice' %>
       </div>
     </div>
+
   </div>
+
 <% else %>
 
-  <section class="px-2 py-10 bg-white md:px-0">
+  <section class="px-2 py-7 bg-white md:px-0">
     <div class="container items-center max-w-6xl px-8 mx-auto xl:px-5">
       <div class="flex flex-wrap items-center sm:-mx-3">
         <div class="w-full md:w-1/2 md:px-3">
