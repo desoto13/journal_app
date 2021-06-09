@@ -1,9 +1,67 @@
-<h1 class="text-center"><%= @task.name %></h1>
-<h2 class="text-center"><%= @task.description %></h2>
-<h2 class="text-center"><%= @task.deadline %></h2>
-<h2 class="text-center"><%= @task.finish %></h2>
+<header class="bg-white shadow">
+  <div class="w-3/5 mx-auto text-center py-6 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900">
+       The TASK from <%= link_to @category.name, category_path(@category), class:"hover:text-blue-800 cursor-pointer" %>
+    </h1>
+  </div>
+</header>
 
+<div class="max-w-7xl mx-auto py-3 sm:px-6 lg:px-8">
+    <section class="w-full px-8 py-4 bg-blue-100 xl:px-8">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col items-center md:flex-row">
 
-<%= link_to "Back", :back %>
-<%= link_to "Edit", edit_category_task_path(@category, @task) %>
-<%= link_to "Delete", category_task_path(@category, @task), method: :delete, data: { confirm: "Are you sure?" } %>
+                <div class="w-full space-y-5 md:w-3/5 md:pr-16">
+                    <div class="w-3/4 h-3/4 bg-white">
+                      <%= image_tag("Task.png", class:"w-full") %>
+                    </div>
+                </div>
+
+                <div class="w-full mt-16 md:mt-0 md:w-2/5">
+                    <%= link_to edit_category_task_path(@category, @task) do %>
+                    <div class="relative z-10 h-96 p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 shadow-2xl px-7 hover:bg-gray-100 cursor-pointer">
+                        <h3 class="mb-6 text-3xl font-bold text-center"><%= @task.name %></h3>
+                        <h4 class="mb-6 text-lg text-indigo-900 font-bold text-center"><%= "DEADLINE: #{@task.deadline.to_s(:long)}" %></h4>
+  
+                        <div class="flex flex-start items-center justify-center w-full mb-6">
+                          <h4 class="font-bold">Status:</h4>
+                          <% if @task.deadline < Date.today && @task.finish == false %>
+                            <h4 class="m-1 bg-red-400 w-24 h-8 flex justify-center items-center font-bold">Past Due</h4>
+                          <% elsif @task.deadline == Date.today && @task.finish == false %>
+                            <h4 class="m-1 bg-yellow-100 w-24 h-8 flex justify-center items-center font-bold">Due Today</h4>
+                          <% elsif @task.deadline > Date.today && @task.finish == false %>
+                            <h4 class="m-1 bg-blue-400 w-24 h-8 flex justify-center items-center font-bold">Upcoming</h4>
+                          <% elsif @task.finish == true %>
+                            <h4 class="m-1 bg-green-300 w-24 h-8 flex justify-center items-center font-bold">Finished</h4>
+                          <% end %>
+                        </div>
+
+                        <div class="overflow-y-auto bg-indigo-100 w-full h-32">
+                          <%= @task.description %>
+                        </div>  
+                    </div>
+                    <% end %>
+
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between">
+        <%= link_to :back do %>
+          <div class="h-10 w-10 flex items-center rounded justify-center hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </div>
+        <% end %>
+
+        <%= link_to category_task_path(@category,@task), method: :delete, data: { confirm: "Are you sure?" } do %>
+          <div class="h-10 w-10 flex items-center rounded justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-red-600 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </div>
+        <% end %>
+
+        </div>
+    </section>
+</div>
