@@ -5,6 +5,12 @@
     
     <div class="w-full bg-white sm:w-5/12">
       <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-blue-800 border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
+          <div class="flex text-white items-center justify-center w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+            </svg><span class="block xl:inline text-4xl font-bold">TaskMaster</span>
+          </div>
           <h3 class="mb-6 text-2xl font-medium text-center text-white">Sign in to your Account</h3>
           
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
