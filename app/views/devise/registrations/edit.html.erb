@@ -6,14 +6,14 @@
   </div>
 </header>
 
-<div class="max-w-7xl mx-auto h-screen py-6 sm:px-6 lg:px-8">  
+<div class="max-w-7xl mx-auto h-screen py-3 sm:px-6 lg:px-8">  
 <section class="p-2 bg-white md:px-0">
     <div class="container items-center max-w-6xl px-8 mx-auto xl:px-5">
       <div class="flex flex-wrap items-center justify-around sm:-mx-3">
         
         <div class="w-full bg-white sm:w-5/12">
-          <div class="flex flex-col items-center justify-start w-full h-full px-10 py-4 bg-blue-300 border-blue-600 border-t-4 border-r-4">
-                <div class="relative w-full space-y-8">
+          <div class="flex flex-col items-center justify-start w-full h-full px-10 py-2 bg-blue-300 border-blue-600 border-t-4 border-r-4">
+                <div class="relative w-full space-y-4 text-sm">
                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
                       <%= render "devise/shared/error_messages", resource: resource %>
                     
